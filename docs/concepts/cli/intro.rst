@@ -105,6 +105,25 @@ Therefore, the two examples above actually work fine together -- ``my_option``
 ends up mapping to both ``--my-option`` *and* ``--my_option``, allowing either
 to be given on the command line.
 
+Automatic Boolean inverse flags
+-------------------------------
+
+Boolean flags tend to work best when setting something that is normally
+``False``, to ``True``::
+
+    $ invoke mytask --yes-please-do-x
+
+However, in some cases, you want the opposite - a default of ``True``, which
+can be easily disabled. For example, colored output::
+
+    @task
+    def run_tests(color=True):
+        # ...
+
+Here, what we really want on the command line is a ``--no-color`` flag that
+sets ``color=False``. Invoke handles this for you: when setting up CLI flags,
+booleans which default to ``True`` generate a ``--no-<name>`` flag instead.
+
 
 Multiple tasks
 ==============
